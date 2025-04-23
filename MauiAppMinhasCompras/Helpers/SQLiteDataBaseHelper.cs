@@ -7,18 +7,18 @@ namespace MauiAppMinhasCompras.Helpers
     public class SQLiteDataBaseHelper
     {
         readonly SQLiteAsyncConnection _conn;
-        public SQLiteDataBaseHelper(string path) 
-        { 
+        public SQLiteDataBaseHelper(string path)
+        {
             _conn = new SQLiteAsyncConnection(path);
             _conn.CreateTableAsync<Produto>().Wait();
         }
 
-        public Task<int> Insert(Produto p) 
+        public Task<int> Insert(Produto p)
         {
-            return _conn.InsertAllAsync(p);
+            return _conn.InsertAllAsync((System.Collections.IEnumerable)p);
         }
 
-        public Task<List<Produto>> Update(Produto p )
+        public Task<List<Produto>> Update(Produto p)
         {
             string sql = "UPDATE Pruduto SET Descricao=?, Quantidade=?, Preco=? WHERE id=?";
 
@@ -33,7 +33,7 @@ namespace MauiAppMinhasCompras.Helpers
         }
 
         public Task<List<Produto>> GetAll()
-        
+
         {
             return _conn.Table<Produto>().ToListAsync();
         }
